@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour {
 	float horizontalMove = 0f;
 	bool jump = false;
 	bool dash = false;
+	float dashTimer = 0;
+	public float dashCooldown = 1f;
 	
 	// Update is called once per frame
 	void Update () {
@@ -22,9 +24,10 @@ public class PlayerMovement : MonoBehaviour {
 			jump = true;
 		}
 
-        if (Input.GetButtonDown("Dash"))
+        if (Input.GetButtonDown("Dash") && Time.time > dashTimer)
 		{
 			dash = true;
+			dashTimer = Time.time + dashCooldown;
 		}
 	}
 
