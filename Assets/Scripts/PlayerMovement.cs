@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	float horizontalMove = 0f;
 	bool jump = false;
+	bool slam = false;
 	bool dash = false;
 	float dashTimer = 0;
 	public float dashCooldown = 1f;
@@ -19,9 +20,13 @@ public class PlayerMovement : MonoBehaviour {
 
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
-		if (Input.GetButtonDown("Jump"))
+		if (Input.GetAxisRaw("Vertical") > 0)
 		{
 			jump = true;
+		}
+		else if (Input.GetAxisRaw("Vertical") < 0)
+		{
+			slam = true;
 		}
 
         if (Input.GetButtonDown("Dash") && Time.time > dashTimer)
@@ -34,8 +39,9 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate ()
 	{
 		// Move our character
-		controller.Move(horizontalMove * Time.fixedDeltaTime, dash, jump);
+		controller.Move(horizontalMove * Time.fixedDeltaTime, dash, jump, slam);
 		jump = false;
         dash = false;
+		slam = false;
 	}
 }
