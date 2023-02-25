@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour {
 	public float dashCooldown = .8f;
 	public float jumpCooldown = .8f;
 
+	bool magnetOn = false;
+
 	// Update is called once per frame
 	void Update () {
 
@@ -43,11 +45,15 @@ public class PlayerMovement : MonoBehaviour {
 				dashTimerL = Time.time + dashCooldown;
 			}
 		}
+
+		if (Input.GetButtonDown ("Magnet")) {
+			magnetOn = !magnetOn;
+		}
 	}
 
 	void FixedUpdate () {
 		// Move our character
-		controller.Move (horizontalMove * Time.fixedDeltaTime, dash, jump, slam);
+		controller.Move (horizontalMove * Time.fixedDeltaTime, dash, jump, slam, magnetOn);
 		jump = false;
 		dash = false;
 		slam = false;
