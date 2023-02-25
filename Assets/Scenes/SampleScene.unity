@@ -1009,6 +1009,7 @@ MonoBehaviour:
   m_GroundCheck: {fileID: 1860577143}
   m_CeilingCheck: {fileID: 2079198961}
   m_CrouchDisableCollider: {fileID: 0}
+  m_FacingRight: 1
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1029,7 +1030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 840133407}
   runSpeed: 30
-  dashCooldown: 0.3
+  dashCooldown: 0.8
 --- !u!70 &840133409
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
