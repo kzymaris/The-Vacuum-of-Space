@@ -3,35 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Magnets : MonoBehaviour
-{
+public class Magnets : MonoBehaviour {
     public float MagnetForce = 10f;
     public float MagnetDistance = 3.5f;
     public Rigidbody2D Player;
-    public Rigidbody2D AllTheMagnets;
+    public Rigidbody2D MagnetBody;
     bool Magnet = false;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start () {
 
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetButtonDown ("Magnet")){
-            if (Magnet){
-                Magnet = false;
-            }
-            else{
-                Magnet = true;
-            }
+    void Update () {
+        if (Input.GetButtonDown ("Magnet")) {
+            Magnet = !Magnet;
         }
 
-        if (Magnet){
-            if ((Player.position - AllTheMagnets.position).magnitude < MagnetDistance){
-                Player.AddForce((Player.position - AllTheMagnets.position).normalized * (-MagnetForce / (AllTheMagnets.position - Player.position).magnitude));
+        if (Magnet) {
+            if ((Player.position - MagnetBody.position).magnitude < MagnetDistance) {
+                Player.AddForce ((Player.position - MagnetBody.position).normalized * (-MagnetForce / (MagnetBody.position - Player.position).magnitude));
             }
         }
     }
