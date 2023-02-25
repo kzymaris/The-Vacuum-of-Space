@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour {
 	float slamTimer = 0;
 	float jumpTimer = 0;
 	public float dashCooldown = .8f;
+	public float jumpCooldown = .8f;
 
 	bool magnetOn = false;
 
@@ -27,7 +28,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		if (Input.GetAxisRaw ("Vertical") > 0 && Time.time > jumpTimer) {
 			jump = true;
-			jumpTimer = Time.time + dashCooldown;
+			jumpTimer = Time.time + jumpCooldown;
 
 		} else if (Input.GetAxisRaw ("Vertical") < 0 && Time.time > slamTimer) {
 			slam = true;

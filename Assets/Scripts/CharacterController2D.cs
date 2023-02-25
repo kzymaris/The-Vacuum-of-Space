@@ -5,6 +5,8 @@ using UnityEngine.Events;
 public class CharacterController2D : MonoBehaviour {
 	[SerializeField] private float m_JumpForce = 400f; // Amount of force added when the player jumps.
 	[SerializeField] private float m_DashForce = 700f;
+	[SerializeField] private float m_StoppingSpeedJump = 8f;
+	[SerializeField] private float m_StoppingSpeedDash = 30f;
 	[Range (0, .3f)][SerializeField] private float m_MovementSmoothing = .05f; // How much to smooth out the movement
 	[SerializeField] private bool m_AirControl = false; // Whether or not a player can steer while jumping;
 	[SerializeField] private LayerMask m_WhatIsGround; // A mask determining what is ground to the character
@@ -94,16 +96,35 @@ public class CharacterController2D : MonoBehaviour {
 		}
 		// If the player should jump...
 		if (jump) {
+			// Cancel some or all movement based on the stopping speed
+			if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedJump) {
+				m_Rigidbody2D.velocity = Vector2.zero;
+			} else {
+				m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedJump * m_Rigidbody2D.velocity.normalized;
+			}
+
 			// Add a vertical force to the player.
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce (new Vector2 (0f, m_JumpForce));
 		}
 
 		if (!m_Grounded && slam) {
+			// Cancel some or all movement based on the stopping speed
+			if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
+				m_Rigidbody2D.velocity = Vector2.zero;
+			} else {
+				m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
+			}
 			m_Rigidbody2D.AddForce (new Vector2 (0f, m_JumpForce * -1));
 		}
 
 		if (dash) {
+			// Cancel some or all movement based on the stopping speed
+			if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
+				m_Rigidbody2D.velocity = Vector2.zero;
+			} else {
+				m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
+			}
 			m_Rigidbody2D.AddForce (new Vector2 (m_FacingRight ? m_DashForce : m_DashForce * -1, 0f));
 		}
 	}
