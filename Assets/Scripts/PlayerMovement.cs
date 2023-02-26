@@ -31,60 +31,80 @@ public class PlayerMovement : MonoBehaviour {
 
 		horizontalMove = Input.GetAxisRaw ("Horizontal") * runSpeed;
 
-		if (Input.GetAxisRaw ("Vertical") > 0 && Time.time > jumpTimer) {
+		if (Input.GetAxisRaw ("Vertical") > 0) {
 			jump = true;
-			jumpTimer = Time.time + jumpCooldown;
-			JumpLight.color = Color.red;
-
-		} else if (Input.GetAxisRaw ("Vertical") < 0 && Time.time > slamTimer) {
+		} else if (Input.GetAxisRaw ("Vertical") < 0) {
 			slam = true;
-			slamTimer = Time.time + dashCooldown;
-			SlamLight.color = Color.red;
 		}
 
 		if (Input.GetButtonDown ("Dash")) {
-			if (Time.time > dashTimerR && controller.m_FacingRight) {
-				dash = true;
-				dashTimerR = Time.time + dashCooldown;
-				RightLight.color = Color.red;
-			}
-			if (Time.time > dashTimerL && !controller.m_FacingRight) {
-				dash = true;
-				dashTimerL = Time.time + dashCooldown;
-				LeftLight.color = Color.red;
-			}
+			dash = true;
 		}
 
 		if (Input.GetButtonDown ("Magnet")) {
 			magnetOn = !magnetOn;
-			if (magnetOn){
+			if (magnetOn) {
 				MagLight.color = Color.blue;
-			}
-			else{
+			} else {
 				MagLight.color = Color.grey;
 			}
 
-		}
-
-		if (Time.time > dashTimerR){
-			RightLight.color = Color.green;
-		}
-		if (Time.time > dashTimerL){
-			LeftLight.color = Color.green;
-		}
-		if (Time.time > jumpTimer){
-			JumpLight.color = Color.green;
-		}
-		if (Time.time > slamTimer){
-			SlamLight.color = Color.green;
 		}
 	}
 
 	void FixedUpdate () {
 		// Move our character
+		if (jump) {
+			if (Time.time < jumpTimer) {
+				jump = false;
+			} else {
+				jumpTimer = Time.time + jumpCooldown;
+				JumpLight.color = Color.red;
+			}
+		}
+
+		if (slam) {
+			if (Time.time < slamTimer) {
+				slam = false;
+			} else {
+				slamTimer = Time.time + dashCooldown;
+				SlamLight.color = Color.red;
+			}
+		}
+
+		if (dash && controller.m_FacingRight) {
+			if (Time.time < dashTimerR) {
+				dash = false;
+			} else {
+				dashTimerR = Time.time + dashCooldown;
+				RightLight.color = Color.red;
+			}
+		}
+		if (dash && !controller.m_FacingRight) {
+			if (Time.time < dashTimerL) {
+				dash = false;
+			} else {
+				dashTimerL = Time.time + dashCooldown;
+				LeftLight.color = Color.red;
+			}
+		}
+
 		controller.Move (horizontalMove * Time.fixedDeltaTime, dash, jump, slam, magnetOn);
 		jump = false;
 		dash = false;
 		slam = false;
+
+		if (Time.time > dashTimerR) {
+			RightLight.color = Color.green;
+		}
+		if (Time.time > dashTimerL) {
+			LeftLight.color = Color.green;
+		}
+		if (Time.time > jumpTimer) {
+			JumpLight.color = Color.green;
+		}
+		if (Time.time > slamTimer) {
+			SlamLight.color = Color.green;
+		}
 	}
 }
