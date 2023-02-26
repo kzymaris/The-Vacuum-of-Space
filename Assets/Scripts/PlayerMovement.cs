@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour {
 	float verticalMove = 0f;
 
 	bool jump = false;
+	bool unjump = true;
 	bool slam = false;
 	bool dash = false;
 	float dashTimer = 0;
@@ -35,9 +36,13 @@ public class PlayerMovement : MonoBehaviour {
 
 		if (Input.GetAxisRaw ("Vertical") > 0) {
 			jump = true;
+			unjump = false;
 		} else if (Input.GetAxisRaw ("Vertical") < 0) {
 			slam = true;
-		}
+		} else if (Input.GetAxisRaw ("Vertical") == 0) {
+			unjump = true;
+			
+        }
 
 		if (Input.GetButtonDown ("Dash")) {
 			dash = true;
@@ -83,7 +88,7 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 
-		controller.Move (horizontalMove * Time.fixedDeltaTime, verticalMove * Time.fixedDeltaTime, dash, jump, slam, magnetOn);
+		controller.Move (horizontalMove * Time.fixedDeltaTime, verticalMove * Time.fixedDeltaTime, dash, jump, unjump, slam, magnetOn);
 		jump = false;
 		dash = false;
 		slam = false;
