@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void FixedUpdate () {
 		// Move our character
-		if (jump) {
+		if (jump && !(magnetOn && controller.m_OnWall)) {
 			if (Time.time < jumpTimer) {
 				jump = false;
 			} else {
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 
-		if (slam) {
+		if (slam && !(magnetOn && controller.m_OnWall)) {
 			if (Time.time < slamTimer) {
 				slam = false;
 			} else {

@@ -19,7 +19,7 @@ public class CharacterController2D : MonoBehaviour {
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded; // Whether or not the player is grounded.
-	private bool m_OnWall; // Whether or not the player is grounded.
+	public bool m_OnWall; // Whether or not the player is grounded.
 	const float k_WallRadius = .1f; // Radius of the overlap circle to determine if the player can stand up
 	private Rigidbody2D m_Rigidbody2D;
 	public bool m_FacingRight = true; // For determining which way the player is currently facing.
@@ -75,75 +75,58 @@ public class CharacterController2D : MonoBehaviour {
 	}
 
 	public void Move (float move, float verticalMove, bool dash, bool jump, bool unjump, bool slam, bool magnetOn) {
-		if (!rDashing && !lDashing && !jumping)
-		{
-			gameObject.GetComponent<Rigidbody2D>().gravityScale = m_Gravity;
-			if (move == 0f && !dash && m_Grounded)
-			{
-				gameObject.GetComponent<Rigidbody2D>().sharedMaterial = sticky;
-			}
-			else
-			{
-				gameObject.GetComponent<Rigidbody2D>().sharedMaterial = slippy;
+		if (!rDashing && !lDashing && !jumping) {
+			gameObject.GetComponent<Rigidbody2D> ().gravityScale = m_Gravity;
+			if (move == 0f && !dash && m_Grounded) {
+				gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = sticky;
+			} else {
+				gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = slippy;
 			}
 
 			//only control the player if grounded or airControl is turned on
-			if (m_Grounded || m_AirControl || m_OnWall)
-			{
-				if ((m_OnWall && magnetOn) && move == 0)
-				{
+			if (m_Grounded || m_AirControl || m_OnWall) {
+				if ((m_OnWall && magnetOn) && move == 0 && verticalMove == 0) {
 					m_Rigidbody2D.velocity = Vector2.zero;
-					gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
+					gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0f;
 				}
-				if ((m_OnWall && magnetOn) && (move > 0 && m_FacingRight || move < 0 && !m_FacingRight || verticalMove != 0))
-				{
+				if ((m_OnWall && magnetOn) && (move > 0 && m_FacingRight || move < 0 && !m_FacingRight || verticalMove != 0)) {
 					float wallSpeed;
-					if (verticalMove != 0)
-					{
+					if (verticalMove != 0) {
 						wallSpeed = verticalMove;
-					}
-					else
-					{
-						wallSpeed = Math.Abs(move);
+					} else {
+						wallSpeed = Math.Abs (move);
 					}
 
-					Debug.Log(wallSpeed);
+					Vector3 targetVelocity = new Vector2 (0, wallSpeed * 10f);
 
-					Vector3 targetVelocity = new Vector2(0, wallSpeed * 10f);
-					m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-				}
-				else
-				{
+					m_Rigidbody2D.velocity = Vector3.SmoothDamp (m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+
+				} else {
+
 					// Move the character by finding the target velocity
-					Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
+					Vector3 targetVelocity = new Vector2 (move * 10f, m_Rigidbody2D.velocity.y);
 					// And then smoothing it out and applying it to the character
-					m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+					m_Rigidbody2D.velocity = Vector3.SmoothDamp (m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
 					// If the input is moving the player right and the player is facing left...
-					if (move > 0 && !m_FacingRight)
-					{
+					if (move > 0 && !m_FacingRight) {
 						// ... flip the player.
-						Flip();
+						Flip ();
 					}
 					// Otherwise if the input is moving the player left and the player is facing right...
-					else if (move < 0 && m_FacingRight)
-					{
+					else if (move < 0 && m_FacingRight) {
 						// ... flip the player.
-						Flip();
+						Flip ();
 					}
 				}
 
 			}
 			// If the player should jump...
-			if (jump && !(m_OnWall && magnetOn))
-			{
+			if (jump && !(m_OnWall && magnetOn)) {
 				// Cancel some or all movement based on the stopping speed
-				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedJump)
-				{
+				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedJump) {
 					m_Rigidbody2D.velocity = Vector2.zero;
-				}
-				else
-				{
+				} else {
 					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedJump * m_Rigidbody2D.velocity.normalized;
 				}
 
@@ -153,56 +136,42 @@ public class CharacterController2D : MonoBehaviour {
 				jumpTimer = Time.time + jumpTime;
 			}
 
-			if (!m_Grounded && slam && !(m_OnWall && magnetOn))
-			{
+			if (!m_Grounded && slam && !(m_OnWall && magnetOn)) {
 				// Cancel some or all movement based on the stopping speed
-				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash)
-				{
+				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
 					m_Rigidbody2D.velocity = Vector2.zero;
-				}
-				else
-				{
+				} else {
 					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
 				}
-				m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * -1));
+				m_Rigidbody2D.AddForce (new Vector2 (0f, m_JumpForce * -1));
 			}
 
-			if (dash)
-			{
+			if (dash) {
 				// Cancel some or all movement based on the stopping speed
-				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash)
-				{
+				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
 					m_Rigidbody2D.velocity = Vector2.zero;
-				}
-				else
-				{
+				} else {
 					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
 				}
 				rDashing = m_FacingRight;
 				lDashing = !m_FacingRight;
 				dashTimer = Time.time + dashTime;
 			}
-		}
-		else
-		{
-			if (rDashing || lDashing)
-			{
-				m_Rigidbody2D.velocity = new Vector2(rDashing ? m_DashForce : -1 * m_DashForce, m_Rigidbody2D.velocity.y);
-				if (Time.time > dashTimer)
-				{
+		} else {
+			if (rDashing || lDashing) {
+				m_Rigidbody2D.velocity = new Vector2 (rDashing ? m_DashForce : -1 * m_DashForce, m_Rigidbody2D.velocity.y);
+				if (Time.time > dashTimer) {
 					rDashing = false;
 					lDashing = false;
 					m_Rigidbody2D.velocity = Vector2.zero;
 				}
 			}
-			if (jumping)
-			{
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpForce);
-				if (unjump || Time.time > jumpTimer)
-				{
+			if (jumping) {
+				m_Rigidbody2D.velocity = new Vector2 (m_Rigidbody2D.velocity.x, m_JumpForce);
+				if (unjump || Time.time > jumpTimer) {
 					jumping = false;
 				}
-            }
+			}
 		}
 	}
 
