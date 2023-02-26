@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
 	public CharacterController2D controller;
-	public SpriteRenderer RightLight;
-	public SpriteRenderer LeftLight;
+	public SpriteRenderer DashLight;
 	public SpriteRenderer JumpLight;
 	public SpriteRenderer SlamLight;
 	public SpriteRenderer MagLight;
@@ -14,11 +13,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float runSpeed = 40f;
 
 	float horizontalMove = 0f;
+	float verticalMove = 0f;
+
 	bool jump = false;
 	bool slam = false;
 	bool dash = false;
-	float dashTimerR = 0;
-	float dashTimerL = 0;
+	float dashTimer = 0;
 	float slamTimer = 0;
 	float jumpTimer = 0;
 	public float dashCooldown = .8f;
@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour {
 	void Update () {
 
 		horizontalMove = Input.GetAxisRaw ("Horizontal") * runSpeed;
+
+		verticalMove = Input.GetAxisRaw ("Vertical") * runSpeed;
 
 		if (Input.GetAxisRaw ("Vertical") > 0) {
 			jump = true;
@@ -72,33 +74,22 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 
-		if (dash && controller.m_FacingRight) {
-			if (Time.time < dashTimerR) {
+		if (dash) {
+			if (Time.time < dashTimer) {
 				dash = false;
 			} else {
-				dashTimerR = Time.time + dashCooldown;
-				RightLight.color = Color.red;
-			}
-		}
-		if (dash && !controller.m_FacingRight) {
-			if (Time.time < dashTimerL) {
-				dash = false;
-			} else {
-				dashTimerL = Time.time + dashCooldown;
-				LeftLight.color = Color.red;
+				dashTimer = Time.time + dashCooldown;
+				DashLight.color = Color.red;
 			}
 		}
 
-		controller.Move (horizontalMove * Time.fixedDeltaTime, dash, jump, slam, magnetOn);
+		controller.Move (horizontalMove * Time.fixedDeltaTime, verticalMove * Time.fixedDeltaTime, dash, jump, slam, magnetOn);
 		jump = false;
 		dash = false;
 		slam = false;
 
-		if (Time.time > dashTimerR) {
-			RightLight.color = Color.green;
-		}
-		if (Time.time > dashTimerL) {
-			LeftLight.color = Color.green;
+		if (Time.time > dashTimer) {
+			DashLight.color = Color.green;
 		}
 		if (Time.time > jumpTimer) {
 			JumpLight.color = Color.green;

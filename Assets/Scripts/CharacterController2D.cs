@@ -66,12 +66,12 @@ public class CharacterController2D : MonoBehaviour {
 
 	}
 
-	public void Move (float move, bool dash, bool jump, bool slam, bool magnetOn) {
+	public void Move (float move, float verticalMove, bool dash, bool jump, bool slam, bool magnetOn) {
 		gameObject.GetComponent<Rigidbody2D> ().gravityScale = 3f;
 		if (move == 0f && !dash && m_Grounded) {
-			gameObject.GetComponent<Rigidbody2D>().sharedMaterial = sticky;
+			gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = sticky;
 		} else {
-			gameObject.GetComponent<Rigidbody2D>().sharedMaterial = slippy;
+			gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = slippy;
 		}
 
 		//only control the player if grounded or airControl is turned on
@@ -80,8 +80,17 @@ public class CharacterController2D : MonoBehaviour {
 				m_Rigidbody2D.velocity = Vector2.zero;
 				gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0f;
 			}
-			if ((m_OnWall && magnetOn) && (move > 0 && m_FacingRight || move < 0 && !m_FacingRight)) {
-				Vector3 targetVelocity = new Vector2 (0, Math.Abs (move) * 10f);
+			if ((m_OnWall && magnetOn) && (move > 0 && m_FacingRight || move < 0 && !m_FacingRight || verticalMove != 0)) {
+				float wallSpeed;
+				if (verticalMove != 0) {
+					wallSpeed = verticalMove;
+				} else {
+					wallSpeed = Math.Abs (move);
+				}
+
+				Debug.Log (wallSpeed);
+
+				Vector3 targetVelocity = new Vector2 (0, wallSpeed * 10f);
 				m_Rigidbody2D.velocity = Vector3.SmoothDamp (m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 			} else {
 				// Move the character by finding the target velocity
@@ -103,7 +112,7 @@ public class CharacterController2D : MonoBehaviour {
 
 		}
 		// If the player should jump...
-		if (jump) {
+		if (jump && !(m_OnWall && magnetOn)) {
 			// Cancel some or all movement based on the stopping speed
 			if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedJump) {
 				m_Rigidbody2D.velocity = Vector2.zero;
@@ -116,7 +125,7 @@ public class CharacterController2D : MonoBehaviour {
 			m_Rigidbody2D.AddForce (new Vector2 (0f, m_JumpForce));
 		}
 
-		if (!m_Grounded && slam) {
+		if (!m_Grounded && slam && !(m_OnWall && magnetOn)) {
 			// Cancel some or all movement based on the stopping speed
 			if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
 				m_Rigidbody2D.velocity = Vector2.zero;
