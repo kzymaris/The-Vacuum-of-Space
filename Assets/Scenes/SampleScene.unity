@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 97945096}
   - component: {fileID: 97945095}
   - component: {fileID: 97945097}
+  - component: {fileID: 97945098}
   m_Layer: 0
   m_Name: Death
   m_TagString: Untagged
@@ -467,6 +468,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 840133401}
   startPoint: {fileID: 1060244665}
+--- !u!19719996 &97945098
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97945093}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 73f896a5597fe424691d5b1ba888fa75, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &243270213
 GameObject:
   m_ObjectHideFlags: 0
