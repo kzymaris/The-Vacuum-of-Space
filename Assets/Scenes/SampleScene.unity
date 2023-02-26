@@ -1580,8 +1580,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdc4c3e783d22a41b8bc5d619724f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 600
-  m_DashForce: 2000
+  m_JumpForce: 6
+  m_DashForce: 50
   m_StoppingSpeedJump: 8
   m_StoppingSpeedDash: 30
   m_MovementSmoothing: 0.05
@@ -1597,6 +1597,8 @@ MonoBehaviour:
   m_Gravity: 3
   m_OnWall: 0
   m_FacingRight: 1
+  dashTime: 0.08
+  jumpTime: 0.25
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
