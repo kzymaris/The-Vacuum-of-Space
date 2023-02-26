@@ -19,7 +19,7 @@ public class CharacterController2D : MonoBehaviour {
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded; // Whether or not the player is grounded.
-	private bool m_OnWall; // Whether or not the player is grounded.
+	public bool m_OnWall; // Whether or not the player is grounded.
 	const float k_WallRadius = .1f; // Radius of the overlap circle to determine if the player can stand up
 	private Rigidbody2D m_Rigidbody2D;
 	public bool m_FacingRight = true; // For determining which way the player is currently facing.
@@ -77,7 +77,7 @@ public class CharacterController2D : MonoBehaviour {
 
 		//only control the player if grounded or airControl is turned on
 		if (m_Grounded || m_AirControl || m_OnWall) {
-			if ((m_OnWall && magnetOn) && move == 0) {
+			if ((m_OnWall && magnetOn) && move == 0 && verticalMove == 0) {
 				m_Rigidbody2D.velocity = Vector2.zero;
 				gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0f;
 			}
@@ -89,11 +89,12 @@ public class CharacterController2D : MonoBehaviour {
 					wallSpeed = Math.Abs (move);
 				}
 
-				Debug.Log (wallSpeed);
-
 				Vector3 targetVelocity = new Vector2 (0, wallSpeed * 10f);
+
 				m_Rigidbody2D.velocity = Vector3.SmoothDamp (m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+
 			} else {
+
 				// Move the character by finding the target velocity
 				Vector3 targetVelocity = new Vector2 (move * 10f, m_Rigidbody2D.velocity.y);
 				// And then smoothing it out and applying it to the character
