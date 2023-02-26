@@ -13,6 +13,8 @@ public class CharacterController2D : MonoBehaviour {
 	[SerializeField] private Transform m_GroundCheck; // A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck; // A position marking where to check for ceilings
 	[SerializeField] private Transform m_WallCheck;
+	[SerializeField] private PhysicsMaterial2D slippy;
+	[SerializeField] private PhysicsMaterial2D sticky;
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded; // Whether or not the player is grounded.
@@ -65,6 +67,11 @@ public class CharacterController2D : MonoBehaviour {
 
 	public void Move (float move, bool dash, bool jump, bool slam, bool magnetOn) {
 		gameObject.GetComponent<Rigidbody2D> ().gravityScale = 3f;
+		if (move == 0f) {
+			gameObject.GetComponent<Rigidbody2D>().sharedMaterial = sticky;
+		} else {
+			gameObject.GetComponent<Rigidbody2D>().sharedMaterial = slippy;
+		}
 
 		//only control the player if grounded or airControl is turned on
 		if (m_Grounded || m_AirControl || m_OnWall) {
