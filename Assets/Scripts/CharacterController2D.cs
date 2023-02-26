@@ -68,7 +68,7 @@ public class CharacterController2D : MonoBehaviour {
 
 	public void Move (float move, bool dash, bool jump, bool slam, bool magnetOn) {
 		gameObject.GetComponent<Rigidbody2D> ().gravityScale = 3f;
-		if (move == 0f && !dash) {
+		if (move == 0f && !dash && m_Grounded) {
 			gameObject.GetComponent<Rigidbody2D>().sharedMaterial = sticky;
 		} else {
 			gameObject.GetComponent<Rigidbody2D>().sharedMaterial = slippy;
