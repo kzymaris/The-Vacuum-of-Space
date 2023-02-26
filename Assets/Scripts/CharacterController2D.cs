@@ -15,6 +15,7 @@ public class CharacterController2D : MonoBehaviour {
 	[SerializeField] private Transform m_WallCheck;
 	[SerializeField] private PhysicsMaterial2D slippy;
 	[SerializeField] private PhysicsMaterial2D sticky;
+	[SerializeField] private float m_Gravity = 3f;
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded; // Whether or not the player is grounded.
@@ -67,7 +68,7 @@ public class CharacterController2D : MonoBehaviour {
 	}
 
 	public void Move (float move, float verticalMove, bool dash, bool jump, bool slam, bool magnetOn) {
-		gameObject.GetComponent<Rigidbody2D> ().gravityScale = 3f;
+		gameObject.GetComponent<Rigidbody2D> ().gravityScale = m_Gravity;
 		if (move == 0f && !dash && m_Grounded) {
 			gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = sticky;
 		} else {
