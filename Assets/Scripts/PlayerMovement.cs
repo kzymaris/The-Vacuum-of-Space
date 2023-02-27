@@ -47,7 +47,6 @@ public class PlayerMovement : MonoBehaviour {
 		} else if (Input.GetAxisRaw ("Vertical") == 0) {
 			unjump = true;
 			rejump = false;
-
 		}
 
 		if (Input.GetButtonDown ("Dash")) {
@@ -61,7 +60,6 @@ public class PlayerMovement : MonoBehaviour {
 			} else {
 				MagLight.color = Color.grey;
 			}
-
 		}
 	}
 

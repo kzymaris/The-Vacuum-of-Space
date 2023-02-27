@@ -23,8 +23,7 @@ public class CharacterController2D : MonoBehaviour {
 	private Rigidbody2D m_Rigidbody2D;
 	public bool m_FacingRight = true; // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
-	private bool lDashing = false;
-	private bool rDashing = false;
+	private bool dashing = false;
 	[SerializeField] private float dashTime = 0.1f;
 	private float dashTimer;
 	private bool jumping = false;
@@ -74,7 +73,7 @@ public class CharacterController2D : MonoBehaviour {
 				jumping = false;
 			}
 		}
-		if (!rDashing && !lDashing) {
+		if (!dashing) {
 			gameObject.GetComponent<Rigidbody2D> ().gravityScale = m_Gravity;
 			if (move == 0f && !dash && m_Grounded) {
 				gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = sticky;
@@ -133,18 +132,14 @@ public class CharacterController2D : MonoBehaviour {
 			}
 
 			if (dash) {
-				rDashing = m_FacingRight;
-				lDashing = !m_FacingRight;
+				dashing = true;
 				dashTimer = Time.time + dashTime;
 			}
 		} else {
-			if (rDashing || lDashing) {
-				m_Rigidbody2D.velocity = new Vector2 (rDashing ? m_DashForce : -1 * m_DashForce, m_Rigidbody2D.velocity.y);
-				if (Time.time > dashTimer) {
-					rDashing = false;
-					lDashing = false;
-					m_Rigidbody2D.velocity = Vector2.zero;
-				}
+			m_Rigidbody2D.velocity = new Vector2 (m_FacingRight ? m_DashForce : -1 * m_DashForce, m_Rigidbody2D.velocity.y);
+			if (Time.time > dashTimer) {
+				dashing = false;
+				m_Rigidbody2D.velocity = Vector2.zero;
 			}
 		}
 	}
