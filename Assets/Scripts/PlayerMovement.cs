@@ -28,6 +28,10 @@ public class PlayerMovement : MonoBehaviour {
 
 	bool magnetOn = false;
 
+	public void Start () {
+		controller.Landed += onLanded;
+	}
+
 	// Update is called once per frame
 	void Update () {
 
@@ -43,8 +47,8 @@ public class PlayerMovement : MonoBehaviour {
 		} else if (Input.GetAxisRaw ("Vertical") == 0) {
 			unjump = true;
 			rejump = false;
-			
-        }
+
+		}
 
 		if (Input.GetButtonDown ("Dash")) {
 			dash = true;
@@ -64,8 +68,7 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate () {
 		// Move our character
 		if (jump && !(magnetOn && controller.m_OnWall)) {
-			if (rejump)
-			{
+			if (rejump) {
 				jump = false;
 			}
 			if (Time.time < jumpTimer) {
@@ -109,5 +112,9 @@ public class PlayerMovement : MonoBehaviour {
 		if (Time.time > slamTimer) {
 			SlamLight.color = Color.green;
 		}
+	}
+
+	public void onLanded () {
+		jumpTimer = 0;
 	}
 }

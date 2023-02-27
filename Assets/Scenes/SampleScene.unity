@@ -4061,9 +4061,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JumpForce: 8.5
+  m_SlamForce: 2000
   m_DashForce: 50
-  m_StoppingSpeedJump: 8
-  m_StoppingSpeedDash: 30
   m_MovementSmoothing: 0.05
   m_AirControl: 1
   m_WhatIsGround:
@@ -4079,9 +4078,6 @@ MonoBehaviour:
   m_FacingRight: 1
   dashTime: 0.08
   jumpTime: 0.2
-  OnLandEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &840133408
 MonoBehaviour:
   m_ObjectHideFlags: 0

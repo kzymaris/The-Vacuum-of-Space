@@ -4,9 +4,8 @@ using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour {
 	[SerializeField] private float m_JumpForce = 400f; // Amount of force added when the player jumps.
+	[SerializeField] private float m_SlamForce = 400f;
 	[SerializeField] private float m_DashForce = 700f;
-	[SerializeField] private float m_StoppingSpeedJump = 8f;
-	[SerializeField] private float m_StoppingSpeedDash = 30f;
 	[Range (0, .3f)][SerializeField] private float m_MovementSmoothing = .05f; // How much to smooth out the movement
 	[SerializeField] private bool m_AirControl = false; // Whether or not a player can steer while jumping;
 	[SerializeField] private LayerMask m_WhatIsGround; // A mask determining what is ground to the character
@@ -32,20 +31,14 @@ public class CharacterController2D : MonoBehaviour {
 	[SerializeField] private float jumpTime = 0.5f;
 	private float jumpTimer;
 
-	[Header ("Events")]
-	[Space]
-
-	public UnityEvent OnLandEvent;
+	public delegate void LandHandler ();
+	public event LandHandler Landed;
 
 	[System.Serializable]
 	public class BoolEvent : UnityEvent<bool> { }
 
 	private void Awake () {
 		m_Rigidbody2D = GetComponent<Rigidbody2D> ();
-
-		if (OnLandEvent == null)
-			OnLandEvent = new UnityEvent ();
-
 	}
 
 	private void FixedUpdate () {
@@ -60,7 +53,7 @@ public class CharacterController2D : MonoBehaviour {
 			if (colliders[i].gameObject != gameObject) {
 				m_Grounded = true;
 				if (!wasGrounded) {
-					OnLandEvent.Invoke ();
+					Landed.Invoke ();
 				}
 			}
 		}
@@ -75,15 +68,13 @@ public class CharacterController2D : MonoBehaviour {
 	}
 
 	public void Move (float move, float verticalMove, bool dash, bool jump, bool unjump, bool slam, bool magnetOn) {
-        if (jumping)
-        {
-            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpForce);
-            if (unjump || Time.time > jumpTimer)
-            {
-                jumping = false;
-            }
-        }
-        if (!rDashing && !lDashing) {
+		if (jumping) {
+			m_Rigidbody2D.velocity = new Vector2 (m_Rigidbody2D.velocity.x, m_JumpForce);
+			if (unjump || Time.time > jumpTimer) {
+				jumping = false;
+			}
+		}
+		if (!rDashing && !lDashing) {
 			gameObject.GetComponent<Rigidbody2D> ().gravityScale = m_Gravity;
 			if (move == 0f && !dash && m_Grounded) {
 				gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = sticky;
@@ -131,13 +122,6 @@ public class CharacterController2D : MonoBehaviour {
 			}
 			// If the player should jump...
 			if (jump && !(m_OnWall && magnetOn)) {
-				/*// Cancel some or all movement based on the stopping speed
-				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedJump) {
-					m_Rigidbody2D.velocity = Vector2.zero;
-				} else {
-					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedJump * m_Rigidbody2D.velocity.normalized;
-				} */
-
 				// Add a vertical force to the player.
 				m_Grounded = false;
 				jumping = true;
@@ -145,22 +129,10 @@ public class CharacterController2D : MonoBehaviour {
 			}
 
 			if (!m_Grounded && slam && !(m_OnWall && magnetOn)) {
-				/*// Cancel some or all movement based on the stopping speed
-				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
-					m_Rigidbody2D.velocity = Vector2.zero;
-				} else {
-					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
-				} */
-				m_Rigidbody2D.AddForce (new Vector2 (0f, m_JumpForce * -1));
+				m_Rigidbody2D.AddForce (new Vector2 (0f, m_SlamForce * -1));
 			}
 
 			if (dash) {
-				/*// Cancel some or all movement based on the stopping speed
-				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
-					m_Rigidbody2D.velocity = Vector2.zero;
-				} else {
-					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
-				} */
 				rDashing = m_FacingRight;
 				lDashing = !m_FacingRight;
 				dashTimer = Time.time + dashTime;
