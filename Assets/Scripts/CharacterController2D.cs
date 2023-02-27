@@ -75,7 +75,15 @@ public class CharacterController2D : MonoBehaviour {
 	}
 
 	public void Move (float move, float verticalMove, bool dash, bool jump, bool unjump, bool slam, bool magnetOn) {
-		if (!rDashing && !lDashing && !jumping) {
+        if (jumping)
+        {
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_JumpForce);
+            if (unjump || Time.time > jumpTimer)
+            {
+                jumping = false;
+            }
+        }
+        if (!rDashing && !lDashing) {
 			gameObject.GetComponent<Rigidbody2D> ().gravityScale = m_Gravity;
 			if (move == 0f && !dash && m_Grounded) {
 				gameObject.GetComponent<Rigidbody2D> ().sharedMaterial = sticky;
@@ -123,12 +131,12 @@ public class CharacterController2D : MonoBehaviour {
 			}
 			// If the player should jump...
 			if (jump && !(m_OnWall && magnetOn)) {
-				// Cancel some or all movement based on the stopping speed
+				/*// Cancel some or all movement based on the stopping speed
 				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedJump) {
 					m_Rigidbody2D.velocity = Vector2.zero;
 				} else {
 					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedJump * m_Rigidbody2D.velocity.normalized;
-				}
+				} */
 
 				// Add a vertical force to the player.
 				m_Grounded = false;
@@ -137,22 +145,22 @@ public class CharacterController2D : MonoBehaviour {
 			}
 
 			if (!m_Grounded && slam && !(m_OnWall && magnetOn)) {
-				// Cancel some or all movement based on the stopping speed
+				/*// Cancel some or all movement based on the stopping speed
 				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
 					m_Rigidbody2D.velocity = Vector2.zero;
 				} else {
 					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
-				}
+				} */
 				m_Rigidbody2D.AddForce (new Vector2 (0f, m_JumpForce * -1));
 			}
 
 			if (dash) {
-				// Cancel some or all movement based on the stopping speed
+				/*// Cancel some or all movement based on the stopping speed
 				if (m_Rigidbody2D.velocity.magnitude < m_StoppingSpeedDash) {
 					m_Rigidbody2D.velocity = Vector2.zero;
 				} else {
 					m_Rigidbody2D.velocity = m_Rigidbody2D.velocity - m_StoppingSpeedDash * m_Rigidbody2D.velocity.normalized;
-				}
+				} */
 				rDashing = m_FacingRight;
 				lDashing = !m_FacingRight;
 				dashTimer = Time.time + dashTime;
@@ -164,12 +172,6 @@ public class CharacterController2D : MonoBehaviour {
 					rDashing = false;
 					lDashing = false;
 					m_Rigidbody2D.velocity = Vector2.zero;
-				}
-			}
-			if (jumping) {
-				m_Rigidbody2D.velocity = new Vector2 (m_Rigidbody2D.velocity.x, m_JumpForce);
-				if (unjump || Time.time > jumpTimer) {
-					jumping = false;
 				}
 			}
 		}
