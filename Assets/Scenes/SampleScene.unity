@@ -1580,7 +1580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdc4c3e783d22a41b8bc5d619724f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 8
+  m_JumpForce: 8.5
   m_DashForce: 50
   m_StoppingSpeedJump: 8
   m_StoppingSpeedDash: 30
@@ -1621,7 +1621,7 @@ MonoBehaviour:
   MagLight: {fileID: 591647030}
   runSpeed: 30
   dashCooldown: 0.8
-  jumpCooldown: 0.8
+  jumpCooldown: 1.1
 --- !u!70 &840133409
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
