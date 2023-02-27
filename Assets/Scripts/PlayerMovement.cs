@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	bool jump = false;
 	bool unjump = true;
+	bool rejump = false;
 	bool slam = false;
 	bool dash = false;
 	float dashTimer = 0;
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour {
 			slam = true;
 		} else if (Input.GetAxisRaw ("Vertical") == 0) {
 			unjump = true;
+			rejump = false;
 			
         }
 
@@ -62,9 +64,14 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate () {
 		// Move our character
 		if (jump && !(magnetOn && controller.m_OnWall)) {
+			if (rejump)
+			{
+				jump = false;
+			}
 			if (Time.time < jumpTimer) {
 				jump = false;
 			} else {
+				rejump = true;
 				jumpTimer = Time.time + jumpCooldown;
 				JumpLight.color = Color.red;
 			}
