@@ -5,7 +5,6 @@ using UnityEngine;
 public class Death : MonoBehaviour
 {
     public GameObject player;
-    public GameObject startPoint;
     
     private void OnCollisionEnter2D (Collision2D other) {
 
