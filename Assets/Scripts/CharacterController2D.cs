@@ -15,8 +15,9 @@ public class CharacterController2D : MonoBehaviour {
 	[SerializeField] private PhysicsMaterial2D slippy;
 	[SerializeField] private PhysicsMaterial2D sticky;
 	[SerializeField] private float m_Gravity = 3f;
+    [SerializeField] public GameObject currentCheckpoint;
 
-	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded; // Whether or not the player is grounded.
 	public bool m_OnWall; // Whether or not the player is grounded.
 	const float k_WallRadius = .1f; // Radius of the overlap circle to determine if the player can stand up
@@ -153,4 +154,10 @@ public class CharacterController2D : MonoBehaviour {
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+	public void reset()
+	{
+        transform.position = currentCheckpoint.transform.position;
+        m_Rigidbody2D.velocity = Vector2.zero;
+    }
 }

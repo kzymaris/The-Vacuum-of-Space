@@ -11,7 +11,7 @@ public class Death : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            player.transform.position = startPoint.transform.position;
+            player.GetComponent<CharacterController2D>().reset();
             Debug.Log("You suck");
         }
     
