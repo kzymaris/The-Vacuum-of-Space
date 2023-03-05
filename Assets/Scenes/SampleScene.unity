@@ -73034,6 +73034,7 @@ GameObject:
   - component: {fileID: 840133407}
   - component: {fileID: 840133408}
   - component: {fileID: 840133409}
+  - component: {fileID: 840133410}
   m_Layer: 3
   m_Name: anamy
   m_TagString: Player
@@ -73109,7 +73110,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 9faf263d23934074a805496d7a7c7d9b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8be5a2b56a69c564aaaaa8bb01b6aa39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -73156,7 +73157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_JumpForce: 8.5
   m_SlamForce: 2000
-  m_DashForce: 50
+  m_DashForce: 17
   m_MovementSmoothing: 0.05
   m_AirControl: 1
   m_WhatIsGround:
@@ -73171,7 +73172,7 @@ MonoBehaviour:
   currentCheckpoint: {fileID: 1077395622}
   m_OnWall: 0
   m_FacingRight: 1
-  dashTime: 0.08
+  dashTime: 0.24
   airSpeed: 1.25
   DeadRomba: {fileID: 1727904958440371221, guid: baadb4d70ddfa774b89b34c747b5318b, type: 3}
 --- !u!114 &840133408
@@ -73187,6 +73188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 840133407}
+  animator: {fileID: 840133410}
   DashLight: {fileID: 1669444478}
   JumpLight: {fileID: 1859938622}
   SlamLight: {fileID: 731254462}
@@ -73236,6 +73238,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4014607714202781017, guid: a85642177c7b49d4695d44fde78ad070, type: 3}
   m_PrefabInstance: {fileID: 377896717}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &840133410
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840133401}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 60b35b412729b854d9a68281a6080fe5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1077395622 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5867823050619960128, guid: a85642177c7b49d4695d44fde78ad070, type: 3}
