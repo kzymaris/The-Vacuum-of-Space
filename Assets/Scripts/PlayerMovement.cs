@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float jumpBuffer = .3f;
     [SerializeField] private float jumpTime = 0.5f;
     private float jumpTimer;
+    private float buffer;
 
     bool magnetOn = false;
 
@@ -48,6 +49,7 @@ public class PlayerMovement : MonoBehaviour {
         if(Input.GetButtonDown("Jump"))
         {
             startJump = true;
+            buffer = Time.time + jumpBuffer;
         }
         if(Input.GetButtonUp("Jump"))
         {
@@ -70,7 +72,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void FixedUpdate () {
-        if (startJump)
+        if (startJump || buffer > Time.time)
         {
             if (Time.time > jumpCooldownTimer)
             {
