@@ -29,6 +29,7 @@ public class CharacterController2D : MonoBehaviour {
     private float dashTimer;
     private bool jumping = false;
     [SerializeField] private float jumpTime = 0.5f;
+    [SerializeField] private float airSpeed = 1.25f;
     private float jumpTimer;
 
     public delegate void LandHandler ();
@@ -103,7 +104,10 @@ public class CharacterController2D : MonoBehaviour {
                     m_Rigidbody2D.velocity = Vector3.SmoothDamp (m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
                 } else {
-
+                    if (!m_Grounded)
+                    {
+                        move = move * airSpeed;
+                    }
                     // Move the character by finding the target velocity
                     Vector3 targetVelocity = new Vector2 (move * 10f, m_Rigidbody2D.velocity.y);
                     // And then smoothing it out and applying it to the character

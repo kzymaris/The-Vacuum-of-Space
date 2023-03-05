@@ -118,5 +118,6 @@ public class PlayerMovement : MonoBehaviour {
 
     public void onLanded () {
         jumpTimer = 0;
+        rejump = false;
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour {
-    [SerializeField] private bool active = false;
     public Animator animator;
 
     private void OnTriggerEnter2D (Collider2D other) {
@@ -16,12 +15,10 @@ public class Checkpoint : MonoBehaviour {
     }
 
     public void activate () {
-        active = true;
         animator.SetTrigger ("Activate");
     }
 
     public void deactivate () {
-        active = false;
         animator.SetTrigger ("Deactivate");
     }
 }
