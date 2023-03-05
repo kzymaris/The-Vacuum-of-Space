@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
     float jumpTimer = 0;
     public float dashCooldown = .8f;
     public float jumpCooldown = .8f;
+    [SerializeField] private float jumpBuffer = .3f;
 
     bool magnetOn = false;
 
@@ -46,7 +47,10 @@ public class PlayerMovement : MonoBehaviour {
             slam = true;
         } else if (Input.GetAxisRaw ("Vertical") == 0) {
             unjump = true;
-            rejump = false;
+            if (Time.time >= jumpTimer - jumpBuffer)
+            {
+                rejump = false;
+            }
         }
 
         if (Input.GetButtonDown ("Dash")) {
