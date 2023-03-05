@@ -69,7 +69,13 @@ public class CharacterController2D : MonoBehaviour {
 
     public void Move (float move, float verticalMove, bool dash, bool jumping, bool slam, bool magnetOn) {
         if (jumping) {
-            m_Rigidbody2D.velocity = new Vector2 (m_Rigidbody2D.velocity.x, m_JumpForce);
+            float xSpeed = m_Rigidbody2D.velocity.x;
+            if (m_OnWall) {
+                Flip ();
+                m_OnWall = false;
+                xSpeed = m_FacingRight ? m_JumpForce : m_JumpForce * -1;
+            }
+            m_Rigidbody2D.velocity = new Vector2 (xSpeed, m_JumpForce);
         }
         if (!dashing) {
             gameObject.GetComponent<Rigidbody2D> ().gravityScale = m_Gravity;
@@ -81,11 +87,11 @@ public class CharacterController2D : MonoBehaviour {
 
             //only control the player if grounded or airControl is turned on
             if (m_Grounded || m_AirControl || m_OnWall) {
-                if ((m_OnWall && magnetOn) && move == 0 && verticalMove == 0) {
+                if (m_OnWall && magnetOn && move == 0 && verticalMove == 0) {
                     m_Rigidbody2D.velocity = Vector2.zero;
                     gameObject.GetComponent<Rigidbody2D> ().gravityScale = 0f;
                 }
-                if ((m_OnWall && magnetOn) && (move > 0 && m_FacingRight || move < 0 && !m_FacingRight || verticalMove != 0)) {
+                if (m_OnWall && magnetOn && (move > 0 && m_FacingRight || move < 0 && !m_FacingRight || verticalMove != 0)) {
                     float wallSpeed;
                     if (verticalMove != 0) {
                         wallSpeed = verticalMove;
@@ -97,7 +103,7 @@ public class CharacterController2D : MonoBehaviour {
 
                     m_Rigidbody2D.velocity = Vector3.SmoothDamp (m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
-                } else {
+                } else if (!(jumping && move == 0)) {
                     if (!m_Grounded) {
                         move = move * airSpeed;
                     }
