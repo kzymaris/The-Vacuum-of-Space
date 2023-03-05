@@ -28,7 +28,6 @@ public class CharacterController2D : MonoBehaviour {
     [SerializeField] private float dashTime = 0.1f;
     private float dashTimer;
     [SerializeField] private float airSpeed = 1.25f;
-    
 
     public delegate void LandHandler ();
     public event LandHandler Landed;
@@ -99,8 +98,7 @@ public class CharacterController2D : MonoBehaviour {
                     m_Rigidbody2D.velocity = Vector3.SmoothDamp (m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
                 } else {
-                    if (!m_Grounded)
-                    {
+                    if (!m_Grounded) {
                         move = move * airSpeed;
                     }
                     // Move the character by finding the target velocity
@@ -153,6 +151,6 @@ public class CharacterController2D : MonoBehaviour {
         transform.position = currentCheckpoint.transform.position;
         m_Rigidbody2D.velocity = Vector2.zero;
         currentCheckpoint.GetComponent<Checkpoint> ().animator.SetTrigger ("Respawn");
-        Instantiate(DeadRomba, m_Rigidbody2D.position, Quaternion.identity);
+        Instantiate (DeadRomba, m_Rigidbody2D.position, Quaternion.identity);
     }
 }

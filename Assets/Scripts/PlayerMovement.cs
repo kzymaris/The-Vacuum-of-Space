@@ -44,20 +44,17 @@ public class PlayerMovement : MonoBehaviour {
 
         if (Input.GetAxisRaw ("Vertical") < 0) {
             slam = true;
-        } 
+        }
 
-        if(Input.GetButtonDown("Jump"))
-        {
+        if (Input.GetButtonDown ("Jump")) {
             startJump = true;
             buffer = Time.time + jumpBuffer;
         }
-        if(Input.GetButtonUp("Jump"))
-        {
+        if (Input.GetButtonUp ("Jump")) {
             jumping = false;
         }
 
-        if (Input.GetButtonDown ("Dash")) 
-        {
+        if (Input.GetButtonDown ("Dash")) {
             dash = true;
         }
 
@@ -72,10 +69,8 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void FixedUpdate () {
-        if (startJump || buffer > Time.time)
-        {
-            if (Time.time > jumpCooldownTimer)
-            {
+        if (startJump || buffer > Time.time) {
+            if (Time.time > jumpCooldownTimer) {
                 jumpCooldownTimer = Time.time + jumpCooldown;
                 jumpTimer = Time.time + jumpTime;
                 jumping = true;
@@ -84,13 +79,11 @@ public class PlayerMovement : MonoBehaviour {
             startJump = false;
         }
 
-        if(Time.time > jumpTimer)
-        {
+        if (Time.time > jumpTimer) {
             jumping = false;
         }
 
-        if(Time.time > jumpCooldownTimer)
-        {
+        if (Time.time > jumpCooldownTimer) {
             JumpLight.color = Color.green;
         }
 
