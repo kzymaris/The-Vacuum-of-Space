@@ -34,6 +34,8 @@ public class CharacterController2D : MonoBehaviour {
     public delegate void LandHandler ();
     public event LandHandler Landed;
 
+    public GameObject DeadRomba;
+
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
 
@@ -159,5 +161,6 @@ public class CharacterController2D : MonoBehaviour {
         transform.position = currentCheckpoint.transform.position;
         m_Rigidbody2D.velocity = Vector2.zero;
         currentCheckpoint.GetComponent<Checkpoint> ().animator.SetTrigger ("Respawn");
+        Instantiate(DeadRomba, m_Rigidbody2D.position, Quaternion.identity);
     }
 }

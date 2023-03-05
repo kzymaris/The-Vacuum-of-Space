@@ -71758,6 +71758,7 @@ MonoBehaviour:
   m_FacingRight: 1
   dashTime: 0.08
   jumpTime: 0.2
+  DeadRomba: {fileID: 1727904958440371221, guid: baadb4d70ddfa774b89b34c747b5318b, type: 3}
 --- !u!114 &840133408
 MonoBehaviour:
   m_ObjectHideFlags: 0

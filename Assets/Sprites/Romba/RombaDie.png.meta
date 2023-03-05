@@ -121,7 +121,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d655ce2bbe5099b4bbd42d04709784cf
+      spriteID: 4af48f4409ef03246899e3b373c7e9a5
       internalID: 209317450
       vertices: []
       indices: 
@@ -142,7 +142,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c8fb11988235b447b6cfa41b7b9bb05
+      spriteID: c5b4348306bae0949ae18a7dff0fff28
       internalID: -398606139
       vertices: []
       indices: 
@@ -163,7 +163,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d5f350e4adfb384f894c0dddb517137
+      spriteID: ae3256fef61b95d4b96125e3fcf6c7b4
       internalID: -234230626
       vertices: []
       indices: 
@@ -184,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43faf9e5d3e889344b798713af347aca
+      spriteID: 594cf98ac59374a42b4f1c5f8ea10a61
       internalID: -803761849
       vertices: []
       indices: 
@@ -205,7 +205,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb497a75e3e1edb448b62d6e7b2857b7
+      spriteID: 815d8b69da6e20e469967826b2027fa8
       internalID: -1662024190
       vertices: []
       indices: 
@@ -226,7 +226,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80c8df1b425c7c04998ea43ea23e9217
+      spriteID: eff0c2cfbc3281d44a6d2518c43dfa75
       internalID: 2020436523
       vertices: []
       indices: 
@@ -247,8 +247,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 77dc98cdcbbfb684195ae67198528859
+      spriteID: d6c64e9e58842b341973c4947e718bf2
       internalID: -210204261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RombaDie_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb312c521a9ac864f9350ac1facddea4
+      internalID: 961191850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RombaDie_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7629a574e46ff5844a08ca0bd1e36835
+      internalID: -2025642036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RombaDie_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62d3923a79425e5449fb0ea7848a8b1d
+      internalID: -1557374795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RombaDie_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bde0f925cfd1c94582c376999f334f5
+      internalID: 1894583028
       vertices: []
       indices: 
       edges: []
@@ -266,11 +350,15 @@ TextureImporter:
     nameFileIdTable:
       RombaDie_0: 209317450
       RombaDie_1: -398606139
+      RombaDie_10: 1894583028
       RombaDie_2: -234230626
       RombaDie_3: -803761849
       RombaDie_4: -1662024190
       RombaDie_5: 2020436523
       RombaDie_6: -210204261
+      RombaDie_7: 961191850
+      RombaDie_8: -2025642036
+      RombaDie_9: -1557374795
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
