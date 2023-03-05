@@ -27,10 +27,8 @@ public class CharacterController2D : MonoBehaviour {
     private bool dashing = false;
     [SerializeField] private float dashTime = 0.1f;
     private float dashTimer;
-    private bool jumping = false;
-    [SerializeField] private float jumpTime = 0.5f;
     [SerializeField] private float airSpeed = 1.25f;
-    private float jumpTimer;
+    
 
     public delegate void LandHandler ();
     public event LandHandler Landed;
@@ -70,12 +68,9 @@ public class CharacterController2D : MonoBehaviour {
 
     }
 
-    public void Move (float move, float verticalMove, bool dash, bool jump, bool unjump, bool slam, bool magnetOn) {
+    public void Move (float move, float verticalMove, bool dash, bool jumping, bool slam, bool magnetOn) {
         if (jumping) {
             m_Rigidbody2D.velocity = new Vector2 (m_Rigidbody2D.velocity.x, m_JumpForce);
-            if (unjump || Time.time > jumpTimer) {
-                jumping = false;
-            }
         }
         if (!dashing) {
             gameObject.GetComponent<Rigidbody2D> ().gravityScale = m_Gravity;
@@ -125,13 +120,6 @@ public class CharacterController2D : MonoBehaviour {
                     }
                 }
 
-            }
-            // If the player should jump...
-            if (jump && !(m_OnWall && magnetOn)) {
-                // Add a vertical force to the player.
-                m_Grounded = false;
-                jumping = true;
-                jumpTimer = Time.time + jumpTime;
             }
 
             if (!m_Grounded && slam && !(m_OnWall && magnetOn)) {

@@ -71885,7 +71885,7 @@ MonoBehaviour:
   m_OnWall: 0
   m_FacingRight: 1
   dashTime: 0.08
-  jumpTime: 0.2
+  airSpeed: 1.25
   DeadRomba: {fileID: 1727904958440371221, guid: baadb4d70ddfa774b89b34c747b5318b, type: 3}
 --- !u!114 &840133408
 MonoBehaviour:
@@ -71907,6 +71907,8 @@ MonoBehaviour:
   runSpeed: 30
   dashCooldown: 0.8
   jumpCooldown: 1.1
+  jumpBuffer: 0.3
+  jumpTime: 0.2
 --- !u!70 &840133409
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

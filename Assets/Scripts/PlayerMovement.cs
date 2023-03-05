@@ -15,17 +15,18 @@ public class PlayerMovement : MonoBehaviour {
     float horizontalMove = 0f;
     float verticalMove = 0f;
 
-    bool jump = false;
-    bool unjump = true;
-    bool rejump = false;
+    bool jumping = false;
+    bool startJump = false;
     bool slam = false;
     bool dash = false;
-    float dashTimer = 0;
-    float slamTimer = 0;
-    float jumpTimer = 0;
+    float dashCooldownTimer = 0;
+    float slamCooldownTimer = 0;
+    float jumpCooldownTimer = 0;
     public float dashCooldown = .8f;
     public float jumpCooldown = .8f;
     [SerializeField] private float jumpBuffer = .3f;
+    [SerializeField] private float jumpTime = 0.5f;
+    private float jumpTimer;
 
     bool magnetOn = false;
 
@@ -40,20 +41,21 @@ public class PlayerMovement : MonoBehaviour {
 
         verticalMove = Input.GetAxisRaw ("Vertical") * runSpeed;
 
-        if (Input.GetAxisRaw ("Vertical") > 0) {
-            jump = true;
-            unjump = false;
-        } else if (Input.GetAxisRaw ("Vertical") < 0) {
+        if (Input.GetAxisRaw ("Vertical") < 0) {
             slam = true;
-        } else if (Input.GetAxisRaw ("Vertical") == 0) {
-            unjump = true;
-            if (Time.time >= jumpTimer - jumpBuffer)
-            {
-                rejump = false;
-            }
+        } 
+
+        if(Input.GetButtonDown("Jump"))
+        {
+            startJump = true;
+        }
+        if(Input.GetButtonUp("Jump"))
+        {
+            jumping = false;
         }
 
-        if (Input.GetButtonDown ("Dash")) {
+        if (Input.GetButtonDown ("Dash")) 
+        {
             dash = true;
         }
 
@@ -68,56 +70,62 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void FixedUpdate () {
-        // Move our character
-        if (jump && !(magnetOn && controller.m_OnWall)) {
-            if (rejump) {
-                jump = false;
-            }
-            if (Time.time < jumpTimer) {
-                jump = false;
-            } else {
-                rejump = true;
-                jumpTimer = Time.time + jumpCooldown;
+        if (startJump)
+        {
+            if (Time.time > jumpCooldownTimer)
+            {
+                jumpCooldownTimer = Time.time + jumpCooldown;
+                jumpTimer = Time.time + jumpTime;
+                jumping = true;
                 JumpLight.color = Color.red;
             }
+            startJump = false;
+        }
+
+        if(Time.time > jumpTimer)
+        {
+            jumping = false;
+        }
+
+        if(Time.time > jumpCooldownTimer)
+        {
+            JumpLight.color = Color.green;
         }
 
         if (slam && !(magnetOn && controller.m_OnWall)) {
-            if (Time.time < slamTimer) {
+            if (Time.time < slamCooldownTimer) {
                 slam = false;
             } else {
-                slamTimer = Time.time + dashCooldown;
+                slamCooldownTimer = Time.time + dashCooldown;
                 SlamLight.color = Color.red;
             }
         }
 
         if (dash) {
-            if (Time.time < dashTimer) {
+            if (Time.time < dashCooldownTimer) {
                 dash = false;
             } else {
-                dashTimer = Time.time + dashCooldown;
+                dashCooldownTimer = Time.time + dashCooldown;
                 DashLight.color = Color.red;
             }
         }
 
-        controller.Move (horizontalMove * Time.fixedDeltaTime, verticalMove * Time.fixedDeltaTime, dash, jump, unjump, slam, magnetOn);
-        jump = false;
+        controller.Move (horizontalMove * Time.fixedDeltaTime, verticalMove * Time.fixedDeltaTime, dash, jumping, slam, magnetOn);
         dash = false;
         slam = false;
 
-        if (Time.time > dashTimer) {
+        if (Time.time > dashCooldownTimer) {
             DashLight.color = Color.green;
         }
-        if (Time.time > jumpTimer) {
+        if (Time.time > jumpCooldownTimer) {
             JumpLight.color = Color.green;
         }
-        if (Time.time > slamTimer) {
+        if (Time.time > slamCooldownTimer) {
             SlamLight.color = Color.green;
         }
     }
 
     public void onLanded () {
-        jumpTimer = 0;
-        rejump = false;
+        jumpCooldownTimer = 0;
     }
 }
