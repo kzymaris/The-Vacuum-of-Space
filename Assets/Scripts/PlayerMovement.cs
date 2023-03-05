@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
     public CharacterController2D controller;
+
+    public Animator animator;
+
     public SpriteRenderer DashLight;
     public SpriteRenderer JumpLight;
     public SpriteRenderer SlamLight;
@@ -75,6 +78,8 @@ public class PlayerMovement : MonoBehaviour {
                 jumpTimer = Time.time + jumpTime;
                 jumping = true;
                 JumpLight.color = Color.red;
+                animator.SetTrigger ("Jump");
+
             }
             startJump = false;
         }
@@ -102,6 +107,8 @@ public class PlayerMovement : MonoBehaviour {
             } else {
                 dashCooldownTimer = Time.time + dashCooldown;
                 DashLight.color = Color.red;
+                animator.SetTrigger ("Dash");
+
             }
         }
 
