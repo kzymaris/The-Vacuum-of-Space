@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Start () {
         controller.Landed += onLanded;
+        controller.Wall += onWall;
+
     }
 
     // Update is called once per frame
@@ -108,7 +110,6 @@ public class PlayerMovement : MonoBehaviour {
                 dashCooldownTimer = Time.time + dashCooldown;
                 DashLight.color = Color.red;
                 animator.SetTrigger ("Dash");
-
             }
         }
 
@@ -130,5 +131,13 @@ public class PlayerMovement : MonoBehaviour {
     public void onLanded () {
         jumpCooldownTimer = 0;
         JumpLight.color = Color.green;
+    }
+
+    public void onWall (bool onWall) {
+        if (onWall) {
+            animator.SetTrigger ("Wall");
+        } else {
+            animator.SetTrigger ("Unwall");
+        }
     }
 }

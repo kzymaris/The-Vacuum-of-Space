@@ -32,6 +32,9 @@ public class CharacterController2D : MonoBehaviour {
     public delegate void LandHandler ();
     public event LandHandler Landed;
 
+    public delegate void WallHandler (bool onWall);
+    public event WallHandler Wall;
+
     public GameObject DeadRomba;
 
     [System.Serializable]
@@ -44,7 +47,7 @@ public class CharacterController2D : MonoBehaviour {
     private void FixedUpdate () {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
-
+        bool wasOnWall = m_OnWall;
         m_OnWall = false;
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
@@ -63,6 +66,12 @@ public class CharacterController2D : MonoBehaviour {
             if (colliders[i].gameObject != gameObject) {
                 m_OnWall = true;
             }
+        }
+        if (m_OnWall && !wasOnWall) {
+            Wall.Invoke (true);
+        }
+        if (!m_OnWall && wasOnWall) {
+            Wall.Invoke (false);
         }
 
     }
