@@ -129,5 +129,6 @@ public class PlayerMovement : MonoBehaviour {
 
     public void onLanded () {
         jumpCooldownTimer = 0;
+        JumpLight.color = Color.green;
     }
 }
